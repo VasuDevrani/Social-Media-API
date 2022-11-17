@@ -13,11 +13,9 @@ export const protect = async (req, res, next) => {
       var decoded = jwt.verify(token, process.env.JWTSECRET);
 
       req.user = await User.findById(decoded.id).select("-password");
-      
       return next();
     } catch (error) {
       res.status(401);
-      console.log(error);
       throw new Error("Not authorized, token failed");
     }
   }

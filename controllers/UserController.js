@@ -162,12 +162,12 @@ const followUser = async (req, res) => {
       { new: true }
     );
     res.status(200).json({
-      name: user.name,
-      _id: user._id,
-      email: user.email,
-      profile_image: user.profile_image,
-      followings: user.followings,
-      followers: user.followers,
+      name: details.name,
+      _id: details._id,
+      email: details.email,
+      profile_image: details.profile_image,
+      followings: details.followings,
+      followers: details.followers,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -191,10 +191,7 @@ const unfollowUser = async (req, res) => {
       return;
     }
 
-    const followings = user.followings.splice(
-      user.followings.findIndex(unFollowed_user_id),
-      1
-    );
+    const followings = user.followings.filter((items) => items.toString() !== unFollowed_user_id);
     await User.findByIdAndUpdate(
       id,
       { followings: followings },
@@ -204,10 +201,10 @@ const unfollowUser = async (req, res) => {
     );
 
     const otherUser = await User.findById(unFollowed_user_id);
-    const followers = otherUser.followers.splice(
-      otherUser.followers.findIndex(id),
-      1
-    );
+
+    const followers = otherUser.followers.filter((items) => {
+      return items.toString() !== id.toString();
+    });
 
     await User.findByIdAndUpdate(
       unFollowed_user_id,

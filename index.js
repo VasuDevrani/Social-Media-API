@@ -13,8 +13,12 @@ app.use(express.json());
 
 // routes
 import UserRoutes from "./routes/UserRoute.js";
+import PostRoutes from "./routes/PostRoute.js";
+import CommentRoutes from "./routes/CommentRoute.js";
 
 app.use("/api", UserRoutes);
+app.use("/api/posts", PostRoutes);
+app.use('/api/comments', CommentRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
