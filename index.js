@@ -12,6 +12,9 @@ app.use(cors());
 app.use(express.json());
 
 // routes
+import UserRoutes from "./routes/UserRoute.js";
+
+app.use("/api", UserRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
